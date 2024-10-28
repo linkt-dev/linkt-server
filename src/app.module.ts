@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmConfigService } from './config/typeorm.config.service';
 import { AppController } from './app.controller';
+import { ContentModule } from './content/content.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { AppController } from './app.controller';
     TypeOrmModule.forRootAsync({
       useClass: TypeOrmConfigService,
     }),
+    ContentModule,
   ],
   controllers: [AppController],
   providers: [],
