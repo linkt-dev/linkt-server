@@ -1,11 +1,11 @@
 export class ContentCreateVo {
-  title?: string;
+  title: string;
 
-  link?: string;
+  link: string;
 
-  category?: string;
+  category: string;
 
-  createdAt?: Date;
+  createdAt: Date;
 
-  updatedAt?: Date;
+  updatedAt: Date;
 }

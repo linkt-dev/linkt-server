@@ -28,7 +28,7 @@ export class ContentService {
     });
   }
 
-  async updateContent(id: number, title: string, link: string, category: string) {
+  async updateContent(id: number, title: string, link: string, category: string): Promise<Content> {
     const content = await this.contentRepository.findOne({
       where: { id },
     });
@@ -38,6 +38,7 @@ export class ContentService {
       title,
       link,
       category,
+      updatedAt: new Date(),
     };
 
     return await this.contentRepository.save(newContent);
