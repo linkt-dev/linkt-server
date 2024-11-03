@@ -3,7 +3,6 @@ import { Repository } from 'typeorm';
 import { Content } from './content.entity';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken, TypeOrmModule } from '@nestjs/typeorm';
-import { ContentCreateRequestDto } from './dto/content-create-request.dto';
 
 describe('ContentService', () => {
   let service: ContentService;
