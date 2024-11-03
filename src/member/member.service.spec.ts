@@ -3,6 +3,7 @@ import { Repository } from 'typeorm';
 import { Member } from './member.entity';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken, TypeOrmModule } from '@nestjs/typeorm';
+import { Content } from '../content/content.entity';
 
 describe('MemberService', () => {
   let service: MemberService;
@@ -14,10 +15,10 @@ describe('MemberService', () => {
         TypeOrmModule.forRoot({
           type: 'sqlite',
           database: ':memory:',
-          entities: [Member],
+          entities: [Member, Content],
           synchronize: true,
         }),
-        TypeOrmModule.forFeature([Member]),
+        TypeOrmModule.forFeature([Member, Content]),
       ],
       providers: [MemberService],
     }).compile();

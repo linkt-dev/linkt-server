@@ -1,3 +1,5 @@
+import { Member } from '../../member/member.entity';
+
 export class ContentCreateVo {
   title: string;
 
@@ -8,4 +10,6 @@ export class ContentCreateVo {
   createdAt: Date;
 
   updatedAt: Date;
+
+  member: Member;
 }

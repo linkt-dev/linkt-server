@@ -16,8 +16,8 @@ export class Member {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  // @OneToMany(() => Content, (content) => content.member)
-  // contents: Content[];
+  @OneToMany(() => Content, (content) => content.member)
+  contents: Content[];
 
   static from(vo: MemberCreateVo) {
     const memberEntity = new Member();
