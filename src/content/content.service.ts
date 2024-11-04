@@ -1,6 +1,6 @@
-import { Repository } from 'typeorm';
+import { Between, Repository } from 'typeorm';
 import { Content } from './content.entity';
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MemberService } from '../member/member.service';
 
@@ -14,6 +14,30 @@ export class ContentService {
 
   async createContent(title: string, link: string, category: string, userId: string) {
     const member = await this.memberService.getMemberByUserId(userId);
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
+
+    const contents = await this.contentRepository.find({
+      where: {
+        member: member,
+        createdAt: Between(today, tomorrow),
+      },
+    });
+
+    if (contents.some((content) => content.link === link)) {
+      throw new HttpException(
+        { errMsg: 'Content with the same link has already been uploaded today' },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    if (contents.length >= 3) {
+      throw new HttpException({ errMsg: 'Upload limit of three contents reached for today' }, HttpStatus.BAD_REQUEST);
+    }
+
     return await this.contentRepository.save(
       Content.from({
         title: title,

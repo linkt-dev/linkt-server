@@ -15,14 +15,14 @@ export class Content {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'varchar', nullable: false })
-  title: string;
+  @Column({ type: 'varchar', nullable: true })
+  title: string | undefined;
 
   @Column({ type: 'varchar', nullable: false })
   link: string;
 
-  @Column({ type: 'varchar', nullable: false })
-  category: string;
+  @Column({ type: 'varchar', nullable: true })
+  category: string | undefined;
 
   @CreateDateColumn({ type: 'datetime', nullable: false })
   createdAt: Date;

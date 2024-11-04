@@ -1,9 +1,9 @@
 export class ContentCreateRequestDto {
-  title: string;
+  title?: string;
 
   link: string;
 
-  category: string;
+  category?: string;
 
   userId: string;
 }
