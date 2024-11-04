@@ -2,15 +2,18 @@ import { Repository } from 'typeorm';
 import { Content } from './content.entity';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { MemberService } from '../member/member.service';
 
 @Injectable()
 export class ContentService {
   constructor(
     @InjectRepository(Content)
     private readonly contentRepository: Repository<Content>,
+    private readonly memberService: MemberService,
   ) {}
 
-  async createContent(title: string, link: string, category: string) {
+  async createContent(title: string, link: string, category: string, userId: string) {
+    const member = await this.memberService.getMemberByUserId(userId);
     return await this.contentRepository.save(
       Content.from({
         title: title,
@@ -18,6 +21,7 @@ export class ContentService {
         category: category,
         createdAt: new Date(),
         updatedAt: new Date(),
+        member: member,
       }),
     );
   }

@@ -3,11 +3,13 @@ import { Repository } from 'typeorm';
 import { Content } from './content.entity';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken, TypeOrmModule } from '@nestjs/typeorm';
-import { ContentCreateRequestDto } from './dto/content-create-request.dto';
+import { Member } from '../member/member.entity';
+import { MemberService } from '../member/member.service';
 
 describe('ContentService', () => {
   let service: ContentService;
   let repository: Repository<Content>;
+  let memberSerivce: MemberService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -15,16 +17,17 @@ describe('ContentService', () => {
         TypeOrmModule.forRoot({
           type: 'sqlite',
           database: ':memory:',
-          entities: [Content],
+          entities: [Content, Member],
           synchronize: true,
         }),
-        TypeOrmModule.forFeature([Content]),
+        TypeOrmModule.forFeature([Content, Member]),
       ],
-      providers: [ContentService],
+      providers: [ContentService, MemberService],
     }).compile();
 
     service = module.get<ContentService>(ContentService);
     repository = module.get<Repository<Content>>(getRepositoryToken(Content));
+    memberSerivce = module.get<MemberService>(MemberService);
   });
 
   it('should be defined', () => {
@@ -36,7 +39,10 @@ describe('ContentService', () => {
     const category = 'youtube';
     const link = 'https://youtube.com';
 
-    const createdContent = await service.createContent(title, category, link);
+    const uuid = '7268533c-ba63-4d8b-a57d-d365040dbfe4';
+    const member = await memberSerivce.createMember(uuid);
+
+    const createdContent = await service.createContent(title, category, link, member.userId);
     const getContent = await repository.findOne({ where: { id: createdContent.id } });
     expect(getContent.id).toEqual(createdContent.id);
     expect(getContent.link).toEqual(createdContent.link);
@@ -45,6 +51,9 @@ describe('ContentService', () => {
   });
 
   it('get content by id', async () => {
+    const uuid = '7268533c-ba63-4d8b-a57d-d365040dbfe4';
+    const member = await memberSerivce.createMember(uuid);
+
     const content = await repository.save(
       Content.from({
         link: 'https://youtube.com',
@@ -52,6 +61,7 @@ describe('ContentService', () => {
         title: 'developer roadmap',
         createdAt: new Date(),
         updatedAt: new Date(),
+        member: member,
       }),
     );
     const getContent = await service.getContentById(1);
@@ -62,6 +72,9 @@ describe('ContentService', () => {
   });
 
   it('update content', async () => {
+    const uuid = '7268533c-ba63-4d8b-a57d-d365040dbfe4';
+    const member = await memberSerivce.createMember(uuid);
+
     await repository.save(
       Content.from({
         link: 'https://youtube.com',
@@ -69,6 +82,7 @@ describe('ContentService', () => {
         title: 'developer roadmap',
         createdAt: new Date(),
         updatedAt: new Date(),
+        member: member,
       }),
     );
 
@@ -85,6 +99,9 @@ describe('ContentService', () => {
   });
 
   it('delete content', async () => {
+    const uuid = '7268533c-ba63-4d8b-a57d-d365040dbfe4';
+    const member = await memberSerivce.createMember(uuid);
+
     await repository.save(
       Content.from({
         link: 'https://youtube.com',
@@ -92,6 +109,7 @@ describe('ContentService', () => {
         title: 'developer roadmap',
         createdAt: new Date(),
         updatedAt: new Date(),
+        member: member,
       }),
     );
 

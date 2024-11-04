@@ -4,4 +4,6 @@ export class ContentCreateRequestDto {
   link: string;
 
   category: string;
+
+  userId: string;
 }

@@ -1,5 +1,14 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { ContentCreateVo } from './vo/content-create.vo';
+import { Member } from '../member/member.entity';
 
 @Entity('contents')
 export class Content {
@@ -21,6 +30,10 @@ export class Content {
   @UpdateDateColumn({ type: 'datetime', nullable: false })
   updatedAt: Date;
 
+  @ManyToOne(() => Member, (member) => member.contents, { nullable: false })
+  @JoinColumn({ name: 'member_id' })
+  member: Member;
+
   static from(vo: ContentCreateVo) {
     const contentEntity = new Content();
     contentEntity.title = vo.title;
@@ -28,6 +41,7 @@ export class Content {
     contentEntity.link = vo.link;
     contentEntity.createdAt = vo.createdAt;
     contentEntity.updatedAt = vo.updatedAt;
+    contentEntity.member = vo.member;
     return contentEntity;
   }
 }
