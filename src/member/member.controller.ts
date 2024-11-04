@@ -9,7 +9,7 @@ export class MemberController {
 
   @Post()
   async createMember(@Body() req: MemberCreateRequestDto) {
-    const member = await this.memberService.createMember(req.userId);
+    const member = await this.memberService.createMember(req.uuid);
     return MemberResponseDto.from(member);
   }
 

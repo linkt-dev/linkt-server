@@ -5,6 +5,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken, TypeOrmModule } from '@nestjs/typeorm';
 import { Member } from '../member/member.entity';
 import { MemberService } from '../member/member.service';
+import { HttpException, HttpStatus } from '@nestjs/common';
 
 describe('ContentService', () => {
   let service: ContentService;
@@ -48,6 +49,43 @@ describe('ContentService', () => {
     expect(getContent.link).toEqual(createdContent.link);
     expect(getContent.title).toEqual(createdContent.title);
     expect(getContent.category).toEqual(createdContent.category);
+  });
+
+  it('upload content over three should throw error', async () => {
+    const title = 'developer roadmap';
+    const category = 'youtube';
+    const link = 'https://youtube.com1';
+    const link2 = 'https://youtube.com2';
+    const link3 = 'https://youtube.com3';
+    const link4 = 'https://youtube.com4';
+
+    const uuid = '7268533c-ba63-4d8b-a57d-d365040dbfe4';
+    const member = await memberSerivce.createMember(uuid);
+
+    await service.createContent(title, link, category, member.userId);
+    await service.createContent(title, link2, category, member.userId);
+    await service.createContent(title, link3, category, member.userId);
+    await expect(service.createContent(title, link4, category, member.userId)).rejects.toThrow(
+      new HttpException({ errMsg: 'Upload limit of three contents reached for today' }, HttpStatus.BAD_REQUEST),
+    );
+  });
+
+  it('upload not duplicate content', async () => {
+    const title = 'developer roadmap';
+    const category = 'youtube';
+    const link = 'https://youtube.com';
+    const link2 = 'https://youtube.com';
+
+    const uuid = '7268533c-ba63-4d8b-a57d-d365040dbfe4';
+    const member = await memberSerivce.createMember(uuid);
+
+    await service.createContent(title, link, category, member.userId);
+    await expect(service.createContent(title, link2, category, member.userId)).rejects.toThrow(
+      new HttpException(
+        { errMsg: 'Content with the same link has already been uploaded today' },
+        HttpStatus.BAD_REQUEST,
+      ),
+    );
   });
 
   it('get content by id', async () => {

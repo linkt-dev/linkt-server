@@ -15,11 +15,7 @@ export class MemberService {
   ) {}
 
   async createMember(uuid: string) {
-    const member = await this.memberRepository.save(Member.from({ userId: '' }));
-
-    member.userId = base62.encode(Buffer.from(uuid));
-
-    return await this.memberRepository.save(member);
+    return await this.memberRepository.save(Member.from({ userId: base62.encode(Buffer.from(uuid)) }));
   }
 
   async getMemberByUserId(userId: string) {
