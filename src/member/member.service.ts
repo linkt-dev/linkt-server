@@ -23,7 +23,7 @@ export class MemberService {
   }
 
   async getMemberByUserId(userId: string) {
-    return this.memberRepository.findOne({
+    return await this.memberRepository.findOne({
       where: {
         userId: userId,
       },

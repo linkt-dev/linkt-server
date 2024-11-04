@@ -11,7 +11,7 @@ export class ContentController {
 
   @Post()
   async createContent(@Body() req: ContentCreateRequestDto) {
-    const content = await this.contentService.createContent(req.title, req.link, req.category);
+    const content = await this.contentService.createContent(req.title, req.link, req.category, req.userId);
     return ContentResponseDto.from(content);
   }
 
