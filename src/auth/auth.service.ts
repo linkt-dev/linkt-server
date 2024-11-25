@@ -18,7 +18,7 @@ export class AuthService {
 
   async createToken(userId: string) {
     return await this.jwtService.signAsync(
-      { id: userId },
+      { userId: userId },
       {
         secret: this.configService.get<string>('JWT_ACCESS_TOKEN_SECRET'),
         expiresIn: parseInt(this.configService.get<string>('JWT_ACCESS_TOKEN_EXPIRES')),
