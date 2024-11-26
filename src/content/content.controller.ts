@@ -14,7 +14,7 @@ export class ContentController {
   @Post()
   @UseGuards(AuthGuard('accessToken'))
   async createContent(@Body() req: ContentCreateRequestDto, @Req() jwtRequest: JwtRequest) {
-    const content = await this.contentService.createContent(req.title, req.link, req.category, jwtRequest.user.userId);
+    const content = await this.contentService.createContent(req.category, req.link, jwtRequest.user.userId, req.title);
     return ContentResponseDto.from(content);
   }
 
