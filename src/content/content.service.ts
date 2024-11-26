@@ -14,6 +14,9 @@ export class ContentService {
 
   async createContent(title: string, link: string, category: string, userId: string) {
     const member = await this.memberService.getMemberByUserId(userId);
+    if (!member) {
+      throw new HttpException('Unauthorized', HttpStatus.NOT_FOUND);
+    }
 
     const today = new Date();
     today.setHours(0, 0, 0, 0);
