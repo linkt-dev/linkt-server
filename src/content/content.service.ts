@@ -3,6 +3,8 @@ import { Content } from './content.entity';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MemberService } from '../member/member.service';
+import { HttpService } from '@nestjs/axios';
+import * as cheerio from 'cheerio';
 
 @Injectable()
 export class ContentService {
@@ -10,14 +12,14 @@ export class ContentService {
     @InjectRepository(Content)
     private readonly contentRepository: Repository<Content>,
     private readonly memberService: MemberService,
+    private readonly httpService: HttpService,
   ) {}
 
-  async createContent(title: string, link: string, category: string, userId: string) {
+  async createContent(category: string, link: string, userId: string, title?: string) {
     const member = await this.memberService.getMemberByUserId(userId);
     if (!member) {
       throw new HttpException('Unauthorized', HttpStatus.NOT_FOUND);
     }
-
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     const tomorrow = new Date(today);
@@ -39,6 +41,15 @@ export class ContentService {
 
     if (contents.length >= 3) {
       throw new HttpException({ errMsg: 'Upload limit of three contents reached for today' }, HttpStatus.BAD_REQUEST);
+    }
+
+    if (!title) {
+      const response = await this.httpService.axiosRef.get(link, {
+        responseType: 'text',
+      });
+      const $ = cheerio.load(response.data);
+
+      title = $('title').text();
     }
 
     return await this.contentRepository.save(

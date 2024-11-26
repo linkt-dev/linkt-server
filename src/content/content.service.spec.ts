@@ -6,11 +6,13 @@ import { getRepositoryToken, TypeOrmModule } from '@nestjs/typeorm';
 import { Member } from '../member/member.entity';
 import { MemberService } from '../member/member.service';
 import { HttpException, HttpStatus } from '@nestjs/common';
+import { HttpModule, HttpService } from '@nestjs/axios';
 
 describe('ContentService', () => {
   let service: ContentService;
   let repository: Repository<Content>;
   let memberSerivce: MemberService;
+  let httpService: HttpService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -22,6 +24,7 @@ describe('ContentService', () => {
           synchronize: true,
         }),
         TypeOrmModule.forFeature([Content, Member]),
+        HttpModule,
       ],
       providers: [ContentService, MemberService],
     }).compile();
@@ -29,6 +32,7 @@ describe('ContentService', () => {
     service = module.get<ContentService>(ContentService);
     repository = module.get<Repository<Content>>(getRepositoryToken(Content));
     memberSerivce = module.get<MemberService>(MemberService);
+    httpService = module.get<HttpService>(HttpService);
   });
 
   it('should be defined', () => {
@@ -43,7 +47,22 @@ describe('ContentService', () => {
     const uuid = '7268533c-ba63-4d8b-a57d-d365040dbfe4';
     const member = await memberSerivce.createMember(uuid);
 
-    const createdContent = await service.createContent(title, category, link, member.userId);
+    const createdContent = await service.createContent(category, link, member.userId, title);
+    const getContent = await repository.findOne({ where: { id: createdContent.id } });
+    expect(getContent.id).toEqual(createdContent.id);
+    expect(getContent.link).toEqual(createdContent.link);
+    expect(getContent.title).toEqual(createdContent.title);
+    expect(getContent.category).toEqual(createdContent.category);
+  });
+
+  it('no title', async () => {
+    const category = 'youtube';
+    const link = 'https://www.youtube.com/watch?v=EfJ2pQ2ma0I';
+
+    const uuid = '7268533c-ba63-4d8b-a57d-d365040dbfe4';
+    const member = await memberSerivce.createMember(uuid);
+
+    const createdContent = await service.createContent(category, link, member.userId);
     const getContent = await repository.findOne({ where: { id: createdContent.id } });
     expect(getContent.id).toEqual(createdContent.id);
     expect(getContent.link).toEqual(createdContent.link);
