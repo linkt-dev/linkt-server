@@ -128,6 +128,77 @@ describe('ContentService', () => {
     expect(getContent.category).toEqual(content.category);
   });
 
+  it('get contents by user id', async () => {
+    const uuid = '7268533c-ba63-4d8b-a57d-d365040dbfe4';
+    const member = await memberSerivce.createMember(uuid);
+
+    await repository.save(
+      Content.from({
+        link: 'https://youtube.com',
+        category: 'youtube',
+        title: 'developer roadmap',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        member: member,
+      }),
+    );
+
+    await repository.save(
+      Content.from({
+        link: 'https://medium.com',
+        category: 'medium',
+        title: 'developer roadmap',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        member: member,
+      }),
+    );
+
+    await repository.save(
+      Content.from({
+        link: 'https://naver.com',
+        category: 'naver',
+        title: 'developer roadmap',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        member: member,
+      }),
+    );
+
+    const contents = await service.getContentsByUserId(member.userId);
+    expect(contents.length).toEqual(3);
+  });
+
+  it('get contents by user id just two', async () => {
+    const uuid = '7268533c-ba63-4d8b-a57d-d365040dbfe4';
+    const member = await memberSerivce.createMember(uuid);
+
+    await repository.save(
+      Content.from({
+        link: 'https://youtube.com',
+        category: 'youtube',
+        title: 'developer roadmap',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        member: member,
+      }),
+    );
+
+    await repository.save(
+      Content.from({
+        link: 'https://medium.com',
+        category: 'medium',
+        title: 'developer roadmap',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        member: member,
+      }),
+    );
+
+    const contents = await service.getContentsByUserId(member.userId);
+    expect(contents.length).toEqual(2);
+  });
+
   it('update content', async () => {
     const uuid = '7268533c-ba63-4d8b-a57d-d365040dbfe4';
     const member = await memberSerivce.createMember(uuid);

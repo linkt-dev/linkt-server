@@ -1,4 +1,4 @@
-import { Between, Repository } from 'typeorm';
+import { Between, MoreThanOrEqual, Repository } from 'typeorm';
 import { Content } from './content.entity';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -67,6 +67,19 @@ export class ContentService {
   async getContentById(id: number) {
     return await this.contentRepository.findOne({
       where: { id },
+    });
+  }
+
+  async getContentsByUserId(userId: string) {
+    const member = await this.memberService.getMemberByUserId(userId);
+    const threeDaysAgo = new Date();
+    threeDaysAgo.setDate(threeDaysAgo.getDate() - 3);
+
+    return await this.contentRepository.find({
+      where: {
+        member: member,
+        createdAt: MoreThanOrEqual(threeDaysAgo),
+      },
     });
   }
 
