@@ -74,6 +74,7 @@ export class ContentService {
     const member = await this.memberService.getMemberByUserId(userId);
     const threeDaysAgo = new Date();
     threeDaysAgo.setDate(threeDaysAgo.getDate() - 3);
+    threeDaysAgo.setHours(0, 0, 0, 0);
 
     return await this.contentRepository.find({
       where: {
