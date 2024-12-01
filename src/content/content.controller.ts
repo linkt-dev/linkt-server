@@ -25,6 +25,13 @@ export class ContentController {
     return ContentResponseDto.from(content);
   }
 
+  @Get()
+  @UseGuards(AuthGuard('accessToken'))
+  async getContents(@Req() jwtRequest: JwtRequest) {
+    const contents = await this.contentService.getContentsByUserId(jwtRequest.user.userId);
+    return contents.map((e) => ContentResponseDto.from(e));
+  }
+
   @Patch(':id')
   @UseGuards(AuthGuard('accessToken'))
   async updateContent(@Param('id') id: number, @Body() req: ContentUpdateRequestDto) {
