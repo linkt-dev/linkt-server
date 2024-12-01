@@ -1,12 +1,25 @@
 import { Member } from '../member.entity';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class MemberResponseDto {
+  @ApiProperty({
+    type: 'number',
+  })
   id: number;
 
+  @ApiProperty({
+    type: 'string',
+  })
   userId: string;
 
+  @ApiProperty({
+    type: 'string',
+  })
   createdAt: Date;
 
+  @ApiProperty({
+    type: 'string',
+  })
   updatedAt: Date;
 
   static from(entity: Member) {

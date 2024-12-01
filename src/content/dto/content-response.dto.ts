@@ -1,16 +1,35 @@
 import { Content } from '../content.entity';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class ContentResponseDto {
+  @ApiProperty({
+    type: 'number',
+  })
   id: number;
 
+  @ApiProperty({
+    type: 'string',
+  })
   title: string;
 
+  @ApiProperty({
+    type: 'string',
+  })
   link: string;
 
+  @ApiProperty({
+    type: 'string',
+  })
   category: string;
 
+  @ApiProperty({
+    type: 'string',
+  })
   createdAt: Date;
 
+  @ApiProperty({
+    type: 'string',
+  })
   updatedAt: Date;
 
   static from(entity: Content) {
