@@ -5,6 +5,7 @@ import { TypeOrmConfigService } from './config/typeorm.config.service';
 import { ContentModule } from './content/content.module';
 import { MemberModule } from './member/member.module';
 import { AuthModule } from './auth/auth.module';
+import { HealthCheckModule } from './health-check/health-check.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { AuthModule } from './auth/auth.module';
     ContentModule,
     MemberModule,
     AuthModule,
+    HealthCheckModule,
   ],
   controllers: [],
   providers: [],
