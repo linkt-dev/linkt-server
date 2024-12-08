@@ -13,7 +13,7 @@ export class AuthController {
     type: LoginResponseDto,
   })
   async login(@Body() req: LoginRequestDto) {
-    const accessToken = await this.authService.login(req.userId);
-    return LoginResponseDto.from(accessToken);
+    const result = await this.authService.login(req.userId);
+    return LoginResponseDto.from(result.accessToken, result.userId);
   }
 }
