@@ -17,12 +17,17 @@ export class AuthService {
   }
 
   async createToken(userId: string) {
-    return await this.jwtService.signAsync(
+    const accessToken = await this.jwtService.signAsync(
       { userId: userId },
       {
         secret: this.configService.get<string>('JWT_ACCESS_TOKEN_SECRET'),
         expiresIn: parseInt(this.configService.get<string>('JWT_ACCESS_TOKEN_EXPIRES')),
       },
     );
+
+    return {
+      accessToken,
+      userId,
+    };
   }
 }
