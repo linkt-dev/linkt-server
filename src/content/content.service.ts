@@ -81,6 +81,7 @@ export class ContentService {
         member: member,
         createdAt: MoreThanOrEqual(threeDaysAgo),
       },
+      order: { createdAt: 'DESC' },
     });
   }
 
