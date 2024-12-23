@@ -14,7 +14,7 @@ async function bootstrap() {
 
   const corsOptions: CorsOptions = {
     credentials: true,
-    origin: 'https://linkt.one',
+    origin: ['https://linkt.one', 'http://localhost:3000'],
   };
 
   app.enableCors(corsOptions);
