@@ -13,21 +13,33 @@ export class AuthService {
 
   async login(userId: string) {
     const member = await this.memberService.getMemberByUserId(userId);
-    return await this.createToken(member.userId);
+    const accessToken = await this.createAccessToken(member.userId);
+    const refreshToken = await this.createRefreshToken(userId);
+
+    return {
+      accessToken,
+      refreshToken,
+      userId,
+    };
   }
 
-  async createToken(userId: string) {
-    const accessToken = await this.jwtService.signAsync(
+  async createAccessToken(userId: string) {
+    return await this.jwtService.signAsync(
       { userId: userId },
       {
         secret: this.configService.get<string>('JWT_ACCESS_TOKEN_SECRET'),
         expiresIn: parseInt(this.configService.get<string>('JWT_ACCESS_TOKEN_EXPIRES')),
       },
     );
+  }
 
-    return {
-      accessToken,
-      userId,
-    };
+  async createRefreshToken(userId: string) {
+    return await this.jwtService.signAsync(
+      { userId: userId },
+      {
+        secret: this.configService.get<string>('JWT_REFRESH_TOKEN_SECRET'),
+        expiresIn: parseInt(this.configService.get<string>('JWT_REFRESH_TOKEN_EXPIRES')),
+      },
+    );
   }
 }

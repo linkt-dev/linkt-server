@@ -5,11 +5,12 @@ import { JwtModule, JwtService } from '@nestjs/jwt';
 import { ConfigModule } from '@nestjs/config';
 import { AuthController } from './auth.controller';
 import { JwtAccessStrategy } from './jwt-access.strategy';
+import { JwtRefreshStrategy } from './jwt-refresh.strategy';
 
 @Module({
   imports: [MemberModule, JwtModule.register({ global: true }), ConfigModule],
-  providers: [AuthService, JwtService, JwtAccessStrategy],
+  providers: [AuthService, JwtService, JwtAccessStrategy, JwtRefreshStrategy],
   controllers: [AuthController],
-  exports: [JwtAccessStrategy],
+  exports: [JwtAccessStrategy, JwtRefreshStrategy],
 })
 export class AuthModule {}
