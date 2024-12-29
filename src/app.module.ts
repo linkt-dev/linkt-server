@@ -6,12 +6,13 @@ import { ContentModule } from './content/content.module';
 import { MemberModule } from './member/member.module';
 import { AuthModule } from './auth/auth.module';
 import { HealthCheckModule } from './health-check/health-check.module';
+import * as process from 'node:process';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: ['.env.development'],
+      envFilePath: [process.env.NODE_ENV === 'development' ? '.env.development' : '.env'],
     }),
     TypeOrmModule.forRootAsync({
       useClass: TypeOrmConfigService,
