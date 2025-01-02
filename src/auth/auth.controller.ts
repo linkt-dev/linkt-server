@@ -24,7 +24,7 @@ export class AuthController {
       path: '/',
       httpOnly: true,
       secure: isProduction,
-      sameSite: isProduction ? 'none' : 'lax',
+      sameSite: isProduction ? 'none' : 'none',
     });
 
     res.cookie('RefreshToken', result.refreshToken, {
@@ -32,7 +32,7 @@ export class AuthController {
       path: '/',
       httpOnly: true,
       secure: isProduction,
-      sameSite: isProduction ? 'none' : 'lax',
+      sameSite: isProduction ? 'none' : 'none',
     });
 
     return LoginResponseDto.from(result.userId);
