@@ -23,7 +23,7 @@ export class AuthController {
       domain: isProduction ? 'api.linkt.one' : 'dev-api.linkt.one',
       path: '/',
       httpOnly: true,
-      secure: isProduction,
+      secure: true,
       sameSite: isProduction ? 'none' : 'none',
     });
 
@@ -31,7 +31,7 @@ export class AuthController {
       domain: isProduction ? 'api.linkt.one' : 'dev-api.linkt.one',
       path: '/',
       httpOnly: true,
-      secure: isProduction,
+      secure: true,
       sameSite: isProduction ? 'none' : 'none',
     });
 
