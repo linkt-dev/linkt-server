@@ -20,7 +20,7 @@ export class AuthController {
     const result = await this.authService.login(req.userId);
 
     res.cookie('Authorization', result.accessToken, {
-      domain: isProduction ? 'api.linkt.one' : 'dev-api.linkt.one',
+      domain: '.linkt.one',
       path: '/',
       httpOnly: true,
       secure: true,
@@ -28,7 +28,7 @@ export class AuthController {
     });
 
     res.cookie('RefreshToken', result.refreshToken, {
-      domain: isProduction ? 'api.linkt.one' : 'dev-api.linkt.one',
+      domain: '.linkt.one',
       path: '/',
       httpOnly: true,
       secure: true,
