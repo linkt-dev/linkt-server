@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IsNotEmpty } from 'class-validator';
 
 export class ContentCreateRequestDto {
   @ApiProperty({
@@ -11,6 +12,7 @@ export class ContentCreateRequestDto {
     type: 'string',
     required: true,
   })
+  @IsNotEmpty()
   link: string;
 
   @ApiProperty({
