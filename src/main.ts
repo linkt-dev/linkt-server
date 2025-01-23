@@ -7,7 +7,9 @@ import { ConfigService } from '@nestjs/config';
 import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    logger: ['error', 'log'],
+  });
   const config = new DocumentBuilder()
     .setTitle('Linkt API')
     .setDescription('Linkt API description')
@@ -16,7 +18,7 @@ async function bootstrap() {
 
   const corsOptions: CorsOptions = {
     credentials: true,
-    origin: ['https://linkt.one', 'http://localhost:3000', 'https://localhost:3000'],
+    origin: ['https://www.linkt.one', 'http://localhost:3000', 'https://localhost:3000'],
   };
 
   app.useGlobalPipes(new ValidationPipe());
