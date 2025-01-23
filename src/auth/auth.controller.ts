@@ -18,21 +18,20 @@ export class AuthController {
   })
   async login(@Body() req: LoginRequestDto, @Res({ passthrough: true }) res: Response) {
     const result = await this.authService.login(req.userId);
-
     res.cookie('Authorization', result.accessToken, {
-      domain: isProduction ? '.linkt.one' : 'dev-api.linkt.one',
+      domain: '.linkt.one',
       path: '/',
       httpOnly: true,
       secure: true,
-      sameSite: isProduction ? 'none' : 'none',
+      sameSite: isProduction ? 'strict' : 'none',
     });
 
     res.cookie('RefreshToken', result.refreshToken, {
-      domain: isProduction ? 'api.linkt.one' : 'dev-api.linkt.one',
+      domain: '.linkt.one',
       path: '/',
       httpOnly: true,
       secure: true,
-      sameSite: isProduction ? 'none' : 'none',
+      sameSite: isProduction ? 'strict' : 'none',
     });
 
     return LoginResponseDto.from(result.userId);
@@ -43,11 +42,11 @@ export class AuthController {
   async restoreAccessToken(@Body() req: LoginRequestDto, @Res({ passthrough: true }) res: Response) {
     const accessToken = await this.authService.createAccessToken(req.userId);
     res.cookie('Authorization', accessToken, {
-      domain: isProduction ? 'api.linkt.one' : 'dev-api.linkt.one',
+      domain: '.linkt.one',
       path: '/',
       httpOnly: true,
       secure: isProduction,
-      sameSite: isProduction ? 'none' : 'lax',
+      sameSite: isProduction ? 'strict' : 'none',
     });
 
     return LoginResponseDto.from(req.userId);
