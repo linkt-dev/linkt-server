@@ -26,8 +26,8 @@ export class MemberController {
   })
   async updateMember(@Param('id') id: number, @Body() req: MemberUpdateRequestDto) {
     const member = await this.memberService.updateMember(id, req.expoPushToken);
-    if ('errMsg' in member) {
-      throw new BadRequestException(member.errMsg);
+    if (!member) {
+      throw new BadRequestException('Failed to update member');
     }
     return MemberResponseDto.from(member);
   }

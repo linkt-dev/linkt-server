@@ -31,9 +31,7 @@ export class MemberService {
       return member;
     }
 
-    return {
-      errMsg: 'failed to update member',
-    };
+    return null;
   }
 
   async getMemberByUserId(userId: string) {
