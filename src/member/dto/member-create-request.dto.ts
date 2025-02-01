@@ -8,4 +8,10 @@ export class MemberCreateRequestDto {
   })
   @IsNotEmpty()
   uuid: string;
+
+  @ApiProperty({
+    type: 'string',
+    required: false,
+  })
+  expoPushToken?: string;
 }

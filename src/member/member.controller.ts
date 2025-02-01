@@ -13,7 +13,7 @@ export class MemberController {
     type: MemberResponseDto,
   })
   async createMember(@Body() req: MemberCreateRequestDto) {
-    const member = await this.memberService.createMember(req.uuid);
+    const member = await this.memberService.createMember(req.uuid, req.expoPushToken);
     return MemberResponseDto.from(member);
   }
 

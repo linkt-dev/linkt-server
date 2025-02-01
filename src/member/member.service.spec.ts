@@ -44,11 +44,13 @@ describe('MemberService', () => {
     const member = await repository.save(
       Member.from({
         userId: 'zMQktZI7jSV8lItyo9loU1Jp0UKwJunwwoV0yH7EIvtX89vI',
+        expoPushToken: 'expoPushToken',
       }),
     );
 
     const getMember = await service.getMemberByUserId('zMQktZI7jSV8lItyo9loU1Jp0UKwJunwwoV0yH7EIvtX89vI');
     expect(getMember.id).toEqual(member.id);
     expect(getMember.userId).toEqual(member.userId);
+    expect(getMember.expoPushToken).toEqual(member.expoPushToken);
   });
 });
