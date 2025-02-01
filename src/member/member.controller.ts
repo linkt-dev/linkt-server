@@ -1,9 +1,10 @@
-import { BadRequestException, Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
 import { MemberService } from './member.service';
 import { MemberCreateRequestDto } from './dto/member-create-request.dto';
 import { MemberResponseDto } from './dto/member-response.dto';
 import { ApiCreatedResponse, ApiExcludeEndpoint, ApiResponse } from '@nestjs/swagger';
 import { MemberUpdateRequestDto } from './dto/member-update-request.dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('members')
 export class MemberController {
@@ -19,6 +20,7 @@ export class MemberController {
   }
 
   @Patch(':id')
+  @UseGuards(AuthGuard('accessToken'))
   @ApiResponse({
     type: MemberResponseDto,
   })
