@@ -20,6 +20,22 @@ export class MemberService {
     );
   }
 
+  async updateMember(id: number, expoPushToken: string) {
+    const member = await this.memberRepository.findOne({
+      where: { id: id },
+    });
+
+    if (member) {
+      member.expoPushToken = expoPushToken;
+      await this.memberRepository.save(member);
+      return member;
+    }
+
+    return {
+      errMsg: 'failed to update member',
+    };
+  }
+
   async getMemberByUserId(userId: string) {
     return await this.memberRepository.findOne({
       where: {
