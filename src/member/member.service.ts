@@ -14,8 +14,10 @@ export class MemberService {
     private readonly memberRepository: Repository<Member>,
   ) {}
 
-  async createMember(uuid: string) {
-    return await this.memberRepository.save(Member.from({ userId: base62.encode(Buffer.from(uuid)) }));
+  async createMember(uuid: string, expoPushToken?: string) {
+    return await this.memberRepository.save(
+      Member.from({ userId: base62.encode(Buffer.from(uuid)), expoPushToken: expoPushToken }),
+    );
   }
 
   async getMemberByUserId(userId: string) {

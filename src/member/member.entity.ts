@@ -10,6 +10,9 @@ export class Member {
   @Column({ type: 'varchar', nullable: false })
   userId: string;
 
+  @Column({ type: 'varchar', nullable: true })
+  expoPushToken?: string;
+
   @CreateDateColumn()
   createdAt: Date;
 
@@ -22,6 +25,7 @@ export class Member {
   static from(vo: MemberCreateVo) {
     const memberEntity = new Member();
     memberEntity.userId = vo.userId;
+    memberEntity.expoPushToken = vo.expoPushToken;
     memberEntity.createdAt = new Date();
     memberEntity.updatedAt = new Date();
     return memberEntity;
