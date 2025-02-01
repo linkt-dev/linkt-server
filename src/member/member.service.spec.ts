@@ -40,6 +40,18 @@ describe('MemberService', () => {
     expect(getMember.userId).toEqual(createdMember.userId);
   });
 
+  it('update a member', async () => {
+    const member = await repository.save(
+      Member.from({
+        userId: 'zMQktZI7jSV8lItyo9loU1Jp0UKwJunwwoV0yH7EIvtX89vI',
+        expoPushToken: 'expoPushToken',
+      }),
+    );
+
+    const updatedMember = await service.updateMember(member.id, 'newExpoPushToken');
+    expect(updatedMember.expoPushToken).toEqual('newExpoPushToken');
+  });
+
   it('get member by userId', async () => {
     const member = await repository.save(
       Member.from({
