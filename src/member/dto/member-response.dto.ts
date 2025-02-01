@@ -15,6 +15,11 @@ export class MemberResponseDto {
   @ApiProperty({
     type: 'string',
   })
+  expoPushToken: string;
+
+  @ApiProperty({
+    type: 'string',
+  })
   createdAt: Date;
 
   @ApiProperty({
@@ -26,6 +31,7 @@ export class MemberResponseDto {
     const response = new MemberResponseDto();
     response.id = entity.id;
     response.userId = entity.userId;
+    response.expoPushToken = entity.expoPushToken;
     response.createdAt = entity.createdAt;
     response.updatedAt = entity.updatedAt;
     return response;

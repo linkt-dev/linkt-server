@@ -1,8 +1,10 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
 import { MemberService } from './member.service';
 import { MemberCreateRequestDto } from './dto/member-create-request.dto';
 import { MemberResponseDto } from './dto/member-response.dto';
-import { ApiCreatedResponse, ApiExcludeEndpoint } from '@nestjs/swagger';
+import { ApiCreatedResponse, ApiExcludeEndpoint, ApiResponse } from '@nestjs/swagger';
+import { MemberUpdateRequestDto } from './dto/member-update-request.dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('members')
 export class MemberController {
@@ -14,6 +16,19 @@ export class MemberController {
   })
   async createMember(@Body() req: MemberCreateRequestDto) {
     const member = await this.memberService.createMember(req.uuid, req.expoPushToken);
+    return MemberResponseDto.from(member);
+  }
+
+  @Patch(':id')
+  @UseGuards(AuthGuard('accessToken'))
+  @ApiResponse({
+    type: MemberResponseDto,
+  })
+  async updateMember(@Param('id') id: number, @Body() req: MemberUpdateRequestDto) {
+    const member = await this.memberService.updateMember(id, req.expoPushToken);
+    if (!member) {
+      throw new BadRequestException('Failed to update member');
+    }
     return MemberResponseDto.from(member);
   }
 
