@@ -26,7 +26,6 @@ export class AuthController {
       sameSite: isProduction ? 'strict' : 'none',
     });
 
-    console.log(result);
     res.cookie('RefreshToken', result.refreshToken, {
       domain: '.linkt.one',
       path: '/',
