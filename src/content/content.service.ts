@@ -43,12 +43,19 @@ export class ContentService {
       throw new HttpException({ errMsg: 'Upload limit of three contents reached for today' }, HttpStatus.BAD_REQUEST);
     }
 
-    if (!title) {
-      const response = await this.httpService.axiosRef.get(link, {
-        responseType: 'text',
-      });
-      const $ = cheerio.load(response.data);
+    const response = await this.httpService.axiosRef.get(link, {
+      responseType: 'text',
+    });
+    const $ = cheerio.load(response.data);
+    let favicon = $('link[rel="icon"]').attr('href') || $('link[rel="shortcut icon"]').attr('href');
+    if (favicon) {
+      favicon = new URL(favicon, link).href;
+    } else {
+      const parsedUrl = new URL(link);
+      favicon = `${parsedUrl.origin}/favicon.ico`;
+    }
 
+    if (!title) {
       title = $('title').text();
     }
 
@@ -57,6 +64,7 @@ export class ContentService {
         title: title,
         link: link,
         category: category,
+        faviconUrl: favicon,
         createdAt: new Date(),
         updatedAt: new Date(),
         member: member,

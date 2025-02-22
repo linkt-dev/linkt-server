@@ -16,13 +16,14 @@ async function bootstrap() {
     .setVersion('1.0')
     .build();
 
-  const corsOptions: CorsOptions = {
-    credentials: true,
-    origin: ['https://www.linkt.one', 'http://localhost:3000', 'https://localhost:3000'],
-  };
+  // const corsOptions: CorsOptions = {
+  //   credentials: true,
+  //   origin: ['https://www.linkt.one', 'http://localhost:3000', 'https://localhost:3000'],
+  // };
 
   app.useGlobalPipes(new ValidationPipe());
-  app.enableCors(corsOptions);
+  // app.enableCors(corsOptions);
+  app.enableCors();
   app.use(cookieParser());
 
   const documentFactory = () => SwaggerModule.createDocument(app, config);

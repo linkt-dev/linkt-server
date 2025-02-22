@@ -7,6 +7,8 @@ export class ContentCreateVo {
 
   category: string;
 
+  faviconUrl: string;
+
   createdAt: Date;
 
   updatedAt: Date;
