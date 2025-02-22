@@ -25,6 +25,11 @@ export class ContentResponseDto {
   @ApiProperty({
     type: 'string',
   })
+  faviconUrl: string;
+
+  @ApiProperty({
+    type: 'string',
+  })
   createdAt: Date;
 
   @ApiProperty({
@@ -38,6 +43,7 @@ export class ContentResponseDto {
     response.title = entity.title;
     response.link = entity.link;
     response.category = entity.category;
+    response.faviconUrl = entity.faviconUrl;
     response.createdAt = entity.createdAt;
     response.updatedAt = entity.updatedAt;
     return response;

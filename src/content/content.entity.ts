@@ -24,6 +24,9 @@ export class Content {
   @Column({ type: 'varchar', nullable: true })
   category: string | undefined;
 
+  @Column({ type: 'text', nullable: true })
+  faviconUrl: string | undefined;
+
   @CreateDateColumn({ type: 'datetime', nullable: false })
   createdAt: Date;
 
@@ -39,6 +42,7 @@ export class Content {
     contentEntity.title = vo.title;
     contentEntity.category = vo.category;
     contentEntity.link = vo.link;
+    contentEntity.faviconUrl = vo.faviconUrl;
     contentEntity.createdAt = vo.createdAt;
     contentEntity.updatedAt = vo.updatedAt;
     contentEntity.member = vo.member;
