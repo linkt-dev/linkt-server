@@ -12,7 +12,6 @@ describe('ContentService', () => {
   let service: ContentService;
   let repository: Repository<Content>;
   let memberSerivce: MemberService;
-  let httpService: HttpService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -32,7 +31,6 @@ describe('ContentService', () => {
     service = module.get<ContentService>(ContentService);
     repository = module.get<Repository<Content>>(getRepositoryToken(Content));
     memberSerivce = module.get<MemberService>(MemberService);
-    httpService = module.get<HttpService>(HttpService);
   });
 
   it('should be defined', () => {
@@ -116,6 +114,7 @@ describe('ContentService', () => {
         link: 'https://youtube.com',
         category: 'youtube',
         title: 'developer roadmap',
+        faviconUrl: 'example favicon',
         createdAt: new Date(),
         updatedAt: new Date(),
         member: member,
@@ -137,6 +136,7 @@ describe('ContentService', () => {
         link: 'https://youtube.com',
         category: 'youtube',
         title: 'developer roadmap',
+        faviconUrl: 'example favicon',
         createdAt: new Date(),
         updatedAt: new Date(),
         member: member,
@@ -148,6 +148,7 @@ describe('ContentService', () => {
         link: 'https://medium.com',
         category: 'medium',
         title: 'developer roadmap',
+        faviconUrl: 'example favicon',
         createdAt: new Date(),
         updatedAt: new Date(),
         member: member,
@@ -159,6 +160,7 @@ describe('ContentService', () => {
         link: 'https://naver.com',
         category: 'naver',
         title: 'developer roadmap',
+        faviconUrl: 'example favicon',
         createdAt: new Date(),
         updatedAt: new Date(),
         member: member,
@@ -178,6 +180,7 @@ describe('ContentService', () => {
         link: 'https://youtube.com',
         category: 'youtube',
         title: 'developer roadmap',
+        faviconUrl: 'example favicon',
         createdAt: new Date(),
         updatedAt: new Date(),
         member: member,
@@ -189,6 +192,7 @@ describe('ContentService', () => {
         link: 'https://medium.com',
         category: 'medium',
         title: 'developer roadmap',
+        faviconUrl: 'example favicon',
         createdAt: new Date(),
         updatedAt: new Date(),
         member: member,
@@ -210,6 +214,7 @@ describe('ContentService', () => {
         link: 'https://youtube.com',
         category: 'youtube',
         title: 'developer roadmap',
+        faviconUrl: 'example favicon',
         createdAt: threeDaysAgo,
         updatedAt: new Date(),
         member: member,
@@ -223,6 +228,7 @@ describe('ContentService', () => {
         link: 'https://medium.com',
         category: 'medium',
         title: 'developer roadmap',
+        faviconUrl: 'example favicon',
         createdAt: twoDaysAgo,
         updatedAt: new Date(),
         member: member,
@@ -234,6 +240,7 @@ describe('ContentService', () => {
         link: 'https://naver.com',
         category: 'naver',
         title: 'developer roadmap',
+        faviconUrl: 'example favicon',
         createdAt: new Date(),
         updatedAt: new Date(),
         member: member,
@@ -253,6 +260,7 @@ describe('ContentService', () => {
         link: 'https://youtube.com',
         category: 'youtube',
         title: 'developer roadmap',
+        faviconUrl: 'example favicon',
         createdAt: new Date(),
         updatedAt: new Date(),
         member: member,
@@ -280,6 +288,7 @@ describe('ContentService', () => {
         link: 'https://youtube.com',
         category: 'youtube',
         title: 'developer roadmap',
+        faviconUrl: 'example favicon',
         createdAt: new Date(),
         updatedAt: new Date(),
         member: member,
